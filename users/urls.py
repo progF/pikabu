@@ -9,4 +9,4 @@ urlpatterns = [
 router = routers.DefaultRouter()
 router.register('register', RegisterViewSet, base_name='users')
 router.register('profile', ProfileViewSet, base_name='users')
-urlpatterns += router.urls.
+urlpatterns += router.urls
