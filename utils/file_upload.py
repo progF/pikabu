@@ -7,6 +7,11 @@ def avatar_path(instance, filename):
     return 'profiles/{}/{}'.format(profile, filename)
 
 
+def community_path(instance, filename):
+    community = instance.name
+    return 'communities/{}/{}'.format(community, filename)
+
+
 def media_delete_path(media):
     path = os.path.abspath(os.path.join(media.path, '..'))
     shutil.rmtree(path)
