@@ -3,7 +3,7 @@ import shutil
 
 def avatar_path(instance, filename):
     profile = instance.user.username
-    return f'avatars/{profile}/{filename}'
+    return 'profiles/{}/{}'.format(profile, filename)
 
 def avatar_delete_path(image):
     path = os.path.abspath(os.path.join(image.path, '..'))
@@ -12,4 +12,4 @@ def avatar_delete_path(image):
 def document_path(instance, filename):
     project = instance.block.project.name
     block = instance.block.name
-    return f'projects/{project}/{block}/{filename}'
+    return 'projects/{}/{}/{}'.format(project, block, filename)

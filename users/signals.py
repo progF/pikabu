@@ -12,5 +12,8 @@ def create_profile(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=Profile)
 def delete_profile(sender,instance, **kwargs):
-        if instance.avatar:
-            avatar_delete_path(instance.avatar)
+        if instance.profile_image or instance.background_image:
+            try:
+                avatar_delete_path(instance.profile_image)
+            except Exception:
+                avatar_delete_path(instance.background_image)
