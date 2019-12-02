@@ -21,6 +21,20 @@ class MainUser(AbstractUser):
         return '{}: {}'.format(self.id,self.username)
 
 
+class ProfileManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by("user__username")
+
+    def filter_by_gender(self, gender):
+        return self.filter(gender=gender)
+
+    def top_profiles(self):
+        return super().get_queryset().order_by("rating")[:5]
+
+    def get_moderators(self):
+        return self.filter(user__is_staff=True)
+
+
 class Profile(models.Model):
     user = models.OneToOneField(MainUser, on_delete=models.CASCADE, related_name='profile')
     gender = models.IntegerField(choices=GENDER_TYPES, default=OTHER)
@@ -39,6 +53,8 @@ class Profile(models.Model):
     post_rating = models.IntegerField(default=0)
     comment_rating = models.IntegerField(default=0)
     comment_sorting = models.IntegerField(choices=COMMENT_SORT_TYPES, default=BY_RATING)
+    objects = models.Manager()
+    profiles = ProfileManager()
 
 
 class UserRelation(models.Model):

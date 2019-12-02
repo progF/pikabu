@@ -33,17 +33,17 @@ class MainUserSerializer(serializers.ModelSerializer):
         return value
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    user = MainUserSerializer(read_only=True)
-
-    class Meta:
-        model = Profile
-        fields = '__all__'
-
-
 class ProfileShortSerializer(serializers.ModelSerializer):
     user = MainUserSerializer(read_only=True)
 
     class Meta:
         model = Profile
         fields = ('id', 'profile_image', 'user')
+
+
+class ProfileSerializer(ProfileShortSerializer):
+
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
