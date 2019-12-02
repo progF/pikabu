@@ -13,7 +13,7 @@ BY_TIME_ASC = 2
 BY_TIME_DESC = 3
 
 COMMENT_SORT_TYPES = (
-    (BY_RATING,1),
-    (BY_TIME_ASC,2),
-    (BY_TIME_DESC,3)
+    (BY_RATING, 1),
+    (BY_TIME_ASC, 2),
+    (BY_TIME_DESC, 3)
 )

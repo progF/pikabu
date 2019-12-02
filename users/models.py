@@ -35,7 +35,7 @@ class Profile(models.Model):
                                                  allowed_extensions=[
                                                      'png',
                                                      'jpg', 'jpeg'])])
-    rating = models.IntegerField(default=0)
+    rating = models.IntegerField(default=0  )
     post_rating = models.IntegerField(default=0)
     comment_rating = models.IntegerField(default=0)
     comment_sorting = models.IntegerField(choices=COMMENT_SORT_TYPES, default=BY_RATING)
