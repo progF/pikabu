@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -32,7 +32,7 @@ class PostDetailAPIView(APIView):
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
     def get_object(self, pk):
-        return Post.objects.get_object_or_404(id=pk)
+        return get_object_or_404(Post, id=pk)
 
     def get(self, request, pk):
         post = self.get_object(pk)
@@ -50,7 +50,7 @@ class PostDetailAPIView(APIView):
     def delete(self, request, pk):
         post = self.get_object(pk)
         post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response('Post with ID: {} was deleted.'.format(pk), status=status.HTTP_204_NO_CONTENT)
 
 
 class CommentListAPIView(APIView):
@@ -58,7 +58,7 @@ class CommentListAPIView(APIView):
     permission_classes = (IsAuthenticatedOrReadOnly, )
 
     def get_object(self, pk):
-        return Post.objects.get_object_or_404(id=pk)
+        return get_object_or_404(Post, id=pk)
 
     def get(self, request, pk):
         post = self.get_object(pk)
@@ -70,7 +70,7 @@ class CommentListAPIView(APIView):
         post = self.get_object(pk)
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(post=post)
+            serializer.save(creator=request.user, post=post)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -80,7 +80,7 @@ class CommentDetailAPIView(APIView):
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
     def get_object(self, pk):
-        return Comment.objects.get_object_or_404(id=pk)
+        return get_object_or_404(Comment, id=pk)
 
     def put(self, request, pk):
         comment = self.get_object(pk)

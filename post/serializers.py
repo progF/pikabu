@@ -18,12 +18,20 @@ class PostShortSerializer(serializers.ModelSerializer):
         return value
 
 
+class PostMediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostMedia
+        fields = ('file', )
+
+
 class PostFullSerializer(PostShortSerializer):
     # community = CommunitySerizilaser(read_only=True)
-    rating = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField(read_only=True)
+    documents_uploaded = serializers.ListField(child=serializers.FileField(), required=False)
+    medias = PostMediaSerializer(read_only=True, many=True)
 
     class Meta(PostShortSerializer.Meta):
-        fields = PostShortSerializer.Meta.fields + ('text', 'medias', 'created_at', 'updated_at', 'rating')
+        fields = PostShortSerializer.Meta.fields + ('text', 'documents_uploaded', 'medias', 'created_at', 'updated_at', 'rating')
         read_only_fields = ('created_at', 'updated_at')
 
     def get_rating(self, post):
@@ -31,17 +39,15 @@ class PostFullSerializer(PostShortSerializer):
 
     def create(self, validated_data):
         with transaction.atomic():
-            medias = validated_data.pop('medias')
+            documents = []
+            if 'documents_uploaded' in validated_data:
+                documents = validated_data.pop('documents_uploaded')
             post = Post(**validated_data)
             post.save()
-            PostMedia.objects.bulk_create([PostMedia(post, media) for media in medias])
+            for j in documents:
+                post_document = PostMedia(post=post, file=j)
+                post_document.save()
             return post
-
-
-class PostMediaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostMedia
-        fields = '__all__'
 
 
 class SavedPostSerializer(serializers.ModelSerializer):
@@ -65,8 +71,8 @@ class CommentSerializer(serializers.Serializer):
     text = serializers.CharField()
     created_at = serializers.DateTimeField(read_only=True)
     updated_at = serializers.DateTimeField(read_only=True)
-    user_id = serializers.PrimaryKeyRelatedField(write_only=True)
-    post_id = serializers.PrimaryKeyRelatedField(write_only=True)
+    creator_id = serializers.PrimaryKeyRelatedField(read_only=True)
+    post_id = serializers.PrimaryKeyRelatedField(read_only=True)
 
     def create(self, validated_data):
         comment = Comment.objects.create(**validated_data)

@@ -35,6 +35,7 @@ class Post(Publishable):
     title = models.CharField(max_length=100)
     creator = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='posts')
 
+    objects = models.Manager()
     posts = PostManager()
     # community = models.ForeignKey(Community, on_delete=models.SET_NULL, related_name='posts')
 
