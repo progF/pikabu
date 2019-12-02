@@ -10,7 +10,7 @@ class MainUser(AbstractUser):
         verbose_name_plural = 'Users'
 
     def __str__(self):
-        return f'{self.id}: {self.username}'
+        return '{}: {}'.format(self.id,self.username)
 
     # def save(self, *args, **kwargs):
     #     self.username = self.username.lower()
