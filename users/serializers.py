@@ -1,6 +1,7 @@
 import logging
 from rest_framework import serializers
-from users.models import MainUser, Profile
+from users.models import MainUser, Profile, UserRelation
+from django.db.models import Q
 
 logger = logging.getLogger(__name__)
 

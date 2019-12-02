@@ -39,3 +39,8 @@ class Profile(models.Model):
     post_rating = models.IntegerField(default=0)
     comment_rating = models.IntegerField(default=0)
     comment_sorting = models.IntegerField(choices=COMMENT_SORT_TYPES, default=BY_RATING)
+
+
+class UserRelation(models.Model):
+    subscriber = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='my_subscriptions')
+    subscribed_to = models.ForeignKey(MainUser, on_delete=models.CASCADE, related_name='my_subscribers')

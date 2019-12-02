@@ -65,3 +65,4 @@ celerybeat-schedule.db
 celerybeat-schedule
 celerybeat.pid
 .vscode/
+migrations/
