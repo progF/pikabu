@@ -9,8 +9,10 @@ class InlineProfile(admin.StackedInline):
     verbose_name_plural = 'Profiles'
     can_delete = False
 
+
 @admin.register(MainUser)
 class MainUserAdmin(UserAdmin):
     inlines = [InlineProfile]
-    
+
+
 admin.site.register(Profile)

@@ -10,8 +10,6 @@ from rest_framework import mixins
 from users.permissions import UserPermissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import status
-from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
@@ -21,17 +19,13 @@ class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
 
 class ProfileViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
-    # serializer_class = ProfileSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, UserPermissions,)
     queryset = Profile.objects.all()
 
     def get_serializer_class(self):
-        serializer_class = None
         if self.action == 'list':
-            serializer_class = ProfileShortSerializer
-        else:
-            serializer_class = ProfileSerializer
-        return serializer_class
+            return ProfileShortSerializer
+        return ProfileSerializer
 
 
 class UserViewSet(mixins.DestroyModelMixin, viewsets.GenericViewSet):
