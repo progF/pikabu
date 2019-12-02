@@ -4,8 +4,7 @@ import shutil
 
 def avatar_path(instance, filename):
     profile = instance.user.username
-    return 'avatars/{}/{}'.format(profile, filename)
-
+    return 'profiles/{}/{}'.format(profile, filename)
 
 def avatar_delete_path(image):
     path = os.path.abspath(os.path.join(image.path, '..'))
