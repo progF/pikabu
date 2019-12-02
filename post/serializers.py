@@ -2,11 +2,11 @@ from django.db import transaction
 from rest_framework import serializers
 
 from post.models import Post, PostMedia, Comment, SavedPost
-from users.serializers import ProfileShortSerializer
+from users.serializers import MainUserSerializer
 
 
 class PostShortSerializer(serializers.ModelSerializer):
-    creator = ProfileShortSerializer(read_only=True)
+    creator = MainUserSerializer(read_only=True)
 
     class Meta:
         model = Post
@@ -50,6 +50,31 @@ class PostFullSerializer(PostShortSerializer):
             return post
 
 
+class PostFullSerializer2(PostShortSerializer):
+    # community = CommunitySerizilaser(read_only=True)
+    documents_uploaded = serializers.ListField(child=serializers.FileField(), required=False)
+    medias = PostMediaSerializer(read_only=True, many=True)
+    text = serializers.CharField(required=False)
+    title = serializers.CharField(required=False)
+
+    class Meta(PostShortSerializer.Meta):
+        fields = PostShortSerializer.Meta.fields + ('text', 'documents_uploaded', 'medias', 'created_at', 'updated_at')
+        read_only_fields = ('created_at', 'updated_at')
+
+    def update(self, instance, validated_data):
+        with transaction.atomic():
+            documents = []
+            if 'documents_uploaded' in validated_data:
+                documents = validated_data.pop('documents_uploaded')
+            instance.title = validated_data.get('title', instance.title)
+            instance.text = validated_data.get('test', instance.text)
+            instance.save()
+            for j in documents:
+                post_document = PostMedia(post=instance, file=j)
+                post_document.save()
+            return instance
+
+
 class SavedPostSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
@@ -71,8 +96,9 @@ class CommentSerializer(serializers.Serializer):
     text = serializers.CharField()
     created_at = serializers.DateTimeField(read_only=True)
     updated_at = serializers.DateTimeField(read_only=True)
-    creator_id = serializers.PrimaryKeyRelatedField(read_only=True)
-    post_id = serializers.PrimaryKeyRelatedField(read_only=True)
+    # creator_id = serializers.PrimaryKeyRelatedField(read_only=True)
+    # post_id = serializers.PrimaryKeyRelatedField(read_only=True)
+    creator = MainUserSerializer(read_only=True)
 
     def create(self, validated_data):
         comment = Comment.objects.create(**validated_data)
@@ -80,8 +106,6 @@ class CommentSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         instance.text = validated_data.get('text', instance.text)
-        instance.post_id = validated_data.get('post_id', instance.post_id)
-        instance.post_id = validated_data.get('user_id', instance.user_id)
         instance.save()
         return instance
 
@@ -90,3 +114,13 @@ class CommentSerializer(serializers.Serializer):
             raise serializers.ValidationError("Comment length can't exceed 200 chars.")
         return value
 
+
+class CommentFullSerializer(CommentSerializer):
+    post = PostShortSerializer(read_only=True)
+
+
+class PostWithCommentsSerializer(PostFullSerializer):
+    comments = CommentSerializer(many=True)
+
+    class Meta(PostFullSerializer.Meta):
+        fields = PostFullSerializer.Meta.fields + ('comments', )

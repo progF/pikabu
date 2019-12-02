@@ -37,7 +37,7 @@ class ProfileShortSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('id', 'profile_image', 'user')
+        fields = ('id', 'profile_image', 'user', 'rating')
 
 
 class ProfileSerializer(ProfileShortSerializer):

@@ -1,5 +1,4 @@
 from django.urls import path
-from rest_framework import routers
 
 from post.views import PostListAPIView, PostDetailAPIView, CommentListAPIView, CommentDetailAPIView, post_rating
 
