@@ -6,12 +6,12 @@ def avatar_path(instance, filename):
     profile = instance.user.username
     return 'profiles/{}/{}'.format(profile, filename)
 
-def avatar_delete_path(image):
-    path = os.path.abspath(os.path.join(image.path, '..'))
+
+def media_delete_path(media):
+    path = os.path.abspath(os.path.join(media.path, '..'))
     shutil.rmtree(path)
 
 
-def document_path(instance, filename):
-    project = instance.block.project.name
-    block = instance.block.name
-    return 'projects/{}/{}/{}'.format(project, block, filename)
+def post_media_path(instance, filename):
+    post = instance.post.id
+    return 'posts/{}/{}'.format(post, filename)

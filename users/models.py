@@ -20,6 +20,7 @@ class MainUser(AbstractUser):
     def __str__(self):
         return '{}: {}'.format(self.id,self.username)
 
+
 class Profile(models.Model):
     user = models.OneToOneField(MainUser, on_delete=models.CASCADE, related_name='profile')
     gender = models.IntegerField(choices=GENDER_TYPES, default=OTHER)
@@ -34,7 +35,7 @@ class Profile(models.Model):
                                                  allowed_extensions=[
                                                      'png',
                                                      'jpg', 'jpeg'])])
-    rating = models.IntegerField(default=0)
+    rating = models.IntegerField(default=0  )
     post_rating = models.IntegerField(default=0)
     comment_rating = models.IntegerField(default=0)
     comment_sorting = models.IntegerField(choices=COMMENT_SORT_TYPES, default=BY_RATING)
