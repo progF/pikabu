@@ -22,8 +22,8 @@ class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
 class ProfileViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     # serializer_class = ProfileSerializer
-    queryset = Profile.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly, UserPermissions,)
+    queryset = Profile.objects.all()
 
     def get_serializer_class(self):
         serializer_class = None
