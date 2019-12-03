@@ -1,12 +1,12 @@
 from django.urls import path
-from rest_framework import routers
+
+from post.views import *
 
 urlpatterns = [
-    # path('posts/'),
-    # path('posts/<int:pk>'),
-    # path('posts/<int:pk>/comments'),
+    path('posts/', PostListAPIView.as_view()),
+    path('posts/<int:pk>', PostDetailAPIView.as_view()),
+    path('posts/<int:pk>/rating', post_rating),
+    path('posts/<int:pk>/comments', CommentListAPIView.as_view()),
+    path('comments/<int:pk>', CommentDetailAPIView.as_view()),
+    path('posts/<int:pk>/save', save_post)
 ]
-
-router = routers.DefaultRouter()
-# router.register('register', RegisterViewSet, base_name='users')
-urlpatterns += router.urls

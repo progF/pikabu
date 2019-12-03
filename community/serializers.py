@@ -12,10 +12,7 @@ class CommunityShortSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'creator', 'community_image')
 
 
-
 class CommunitySerializer(CommunityShortSerializer):
-
     class Meta:
         model = Community
         fields = '__all__'
-    

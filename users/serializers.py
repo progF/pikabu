@@ -1,7 +1,6 @@
 import logging
 from rest_framework import serializers
-from users.models import MainUser, Profile, UserRelation
-from django.db.models import Q
+from users.models import MainUser, Profile
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +37,7 @@ class ProfileShortSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('id', 'profile_image', 'user')
+        fields = ('id', 'profile_image', 'user', 'rating')
 
 
 class ProfileSerializer(ProfileShortSerializer):
