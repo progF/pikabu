@@ -3,9 +3,9 @@ from rest_framework import routers
 from tag.views import TagViewSet, tag_subscription
 
 urlpatterns = [
-    path('subscribe_to_tag/<slug:name>/', tag_subscription)
+    path('tags/<int:pk>/subscribe', tag_subscription)
 ]
 
 router = routers.DefaultRouter()
-router.register('tag',TagViewSet, base_name='tag')
+router.register('tags', TagViewSet, base_name='tags')
 urlpatterns += router.urls

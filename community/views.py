@@ -1,16 +1,16 @@
-from django.shortcuts import render
 from community.serializers import CommunityShortSerializer, CommunitySerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from community.models import Community,CommunityMember
-from rest_framework import viewsets
-from rest_framework import mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Q
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class CommunityAPIView(APIView):
@@ -38,6 +38,7 @@ class CommunityDetailAPIView(APIView):
         try:
             return Community.objects.get(pk=pk)
         except Community.DoesNotExist:
+            logger.warning('community with id: {} not found'.format(pk))
             raise Http404
 
     def get(self, request, pk, format=None):
