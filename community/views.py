@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from users.permissions import UserPermissions
 from community.serializers import CommunityShortSerializer, CommunitySerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -16,7 +15,7 @@ from django.db.models import Q
 
 class CommunityAPIView(APIView):
     http_method_names = ['get', 'post']
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
     def get(self, request):
         communities = Community.objects.all()
@@ -33,7 +32,7 @@ class CommunityAPIView(APIView):
 
 class CommunityDetailAPIView(APIView):
     http_method_names = ['get', 'put', 'delete']
-    permission_classes = (IsAuthenticatedOrReadOnly, UserPermissions,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_object(self, pk):
         try:

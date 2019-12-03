@@ -5,7 +5,7 @@ from django.core.validators import FileExtensionValidator
 
 
 class Community(models.Model):
-    creator = models.ForeignKey(MainUser,on_delete=models.SET_NULL, related_name='communities', null=True)
+    creator = models.ForeignKey(MainUser, on_delete=models.SET_NULL, related_name='communities', null=True)
     name = models.CharField(max_length=20, unique=True)
     about = models.TextField(max_length=500, blank=True)
     community_image = models.ImageField(upload_to=community_path, blank=True, null=True, validators=[

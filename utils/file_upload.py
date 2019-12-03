@@ -8,7 +8,7 @@ def avatar_path(instance, filename):
 
 
 def community_path(instance, filename):
-    community = instance.name
+    community = instance.id
     return 'communities/{}/{}'.format(community, filename)
 
 
