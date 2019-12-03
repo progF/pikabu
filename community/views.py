@@ -10,6 +10,8 @@ from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Q
 import logging
 
+from post.serializers import PostShortSerializer
+
 logger = logging.getLogger(__name__)
 
 
@@ -58,6 +60,14 @@ class CommunityDetailAPIView(APIView):
         community = self.get_object(pk)
         community.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def community_posts(request, pk):
+    community = get_object_or_404(Community, id=pk)
+    posts = community.posts
+    serializer = PostShortSerializer(posts, many=True)
+    return Response(serializer.data)
 
 
 @api_view(['POST'])
