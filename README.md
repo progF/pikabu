@@ -25,10 +25,6 @@ pip install -r requirements.txt
 4. create all needed tables
 
 ```
-python manage.py makemigrations
-```
-
-```
 python manage.py migrate
 ```
 
