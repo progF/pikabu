@@ -123,18 +123,23 @@
 									"key": "comment_sorting",
 									"value": "2",
 									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "5",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/users/profile/1/",
+							"raw": "{{BASE_URL}}/users/profile/2/",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"users",
 								"profile",
-								"1",
+								"2",
 								""
 							]
 						}
@@ -438,9 +443,8 @@
 								},
 								{
 									"key": "community_id",
-									"value": "",
-									"type": "text",
-									"disabled": true
+									"value": "1",
+									"type": "text"
 								},
 								{
 									"key": "tag_names[0]",
@@ -960,6 +964,25 @@
 								"subscribe_to",
 								"1",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Community Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/communities/1/posts",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"communities",
+								"1",
+								"posts"
 							]
 						}
 					},
