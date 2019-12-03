@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import datetime
+from utils import helpers
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -177,34 +178,67 @@ FILE_UPLOAD_HANDLERS = [
     'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 ]
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'formatters': {
-#         'verbose': {
-#             'format': '%(levelname)s -- %(asctime)s -- %(message)s',
-#         },
-#         'simple': {
-#             'format': '%(levelname)s -- %(message)s',
-#         }
-#     },
-#     'handlers': {
-#         'core_file': {
-#             'level': 'ERROR',
-#             'class': 'logging.FileHandler',
-#             'filename': 'core.log',
-#             'formatter': 'verbose'
-#         },
-#         'console_handler': {
-#             'level': 'INFO',
-#             'class': 'logging.StreamHandler',
-#             'formatter': 'simple'
-#         }
-#     },
-#     'loggers': {
-#         'core': {
-#             'handlers': ['core_file', 'console_handler'],
-#             # 'level': 'INFO',
-#         },
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s -- %(asctime)s -- %(message)s',
+        },
+        'simple': {
+            'format': '%(levelname)s -- %(message)s',
+        }
+    },
+    'handlers': {
+        'post_file_handler': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': helpers.create_log_dir_if_not_exists('post'),
+            'maxBytes': 1024*1024*5,
+            'backupCount': 3,
+            'formatter': 'verbose'
+        },
+        'community_file_handler': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': helpers.create_log_dir_if_not_exists('community'),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 3,
+            'formatter': 'verbose'
+        },
+        'tag_file_handler': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': helpers.create_log_dir_if_not_exists('tag'),
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 3,
+            'formatter': 'verbose'
+        },
+        'users_file_handler': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': helpers.create_log_dir_if_not_exists('users'),
+            'maxBytes': 1024*1024*5,
+            'backupCount': 3,
+            'formatter': 'verbose'
+        },
+        'console_handler': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        }
+    },
+    'loggers': {
+        'post': {
+            'handlers': ['post_file_handler', 'console_handler'],
+            'level': 'INFO',
+        },
+        'community': {
+            'handlers': ['community_file_handler', 'console_handler'],
+            'level': 'INFO',
+        },
+        'tag': {
+            'handlers': ['tag_file_handler', 'console_handler'],
+            'level': 'INFO',
+        },
+        'users': {
+            'handlers': ['users_file_handler', 'console_handler'],
+            'level': 'INFO',
+        },
+    },
+}

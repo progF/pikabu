@@ -7,7 +7,7 @@ from utils.constants import (
     OTHER,
     COMMENT_SORT_TYPES,
     BY_TIME_ASC)
-from utils.validators import comment_sort
+from utils.validators import comment_sort, profile_gender
 
 
 class MainUser(AbstractUser):
@@ -37,7 +37,7 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(MainUser, on_delete=models.CASCADE, related_name='profile')
-    gender = models.IntegerField(choices=GENDER_TYPES, default=OTHER)
+    gender = models.IntegerField(choices=GENDER_TYPES, default=OTHER, validators=[profile_gender])
     about = models.TextField(max_length=500, blank=True)
     profile_image = models.ImageField(upload_to=avatar_path, default='default_avatar.png', blank=True, null=True,
                                       validators=[FileExtensionValidator(

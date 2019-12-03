@@ -30,7 +30,7 @@ var/
 *.spec
 # Installer logs
 pip-log.txt
-pip-delete-this-directory.txt
+pip-delete-this-directory.txдt
 # Unit test / coverage reports
 htmlcov/
 .tox/

@@ -1,7 +1,8 @@
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from post.models import Post
-from post.serializers import PostFullSerializer, CommentSerializer, SavedPostSerializer
+from post.serializers import PostFullSerializer, CommentSerializer
+from tag.models import PostTagMap
 from users.models import Profile, UserRelation, MainUser
 from users.serializers import (
     MainUserSerializer,
@@ -17,7 +18,9 @@ from django.db.models import Q, Count
 
 from utils.constants import BY_TIME_ASC
 from utils.permissions import UserPermissions
+import logging
 
+logger = logging.getLogger(__name__)
 
 class RegisterViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = MainUserSerializer
@@ -47,12 +50,23 @@ class UserInfoViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets
     @action(methods=['GET'], detail=False, url_path='newsfeed/subscriptions', url_name='newsfeed/subscriptions')
     def newsfeed_subscriptions(self, request):
         posts = Post.objects.filter(creator__my_subscribers__subscriber_id=self.request.user.id)
+        posts = posts.annotate(rating=Count('ratings')).filter(rating__gte=request.user.profile.post_rating)
         serializer = PostFullSerializer(posts, many=True)
         return Response(serializer.data)
 
     @action(methods=['GET'], detail=False, url_path='newsfeed/communities', url_name='newsfeed/communities')
     def newsfeed_communities(self, request):
         posts = Post.objects.filter(community__my_users__user_id=self.request.user.id)
+        posts = posts.annotate(rating=Count('ratings')).filter(rating__gte=request.user.profile.post_rating)
+        serializer = PostFullSerializer(posts, many=True)
+        return Response(serializer.data)
+
+    @action(methods=['GET'], detail=False, url_path='newsfeed/tags', url_name='newsfeed/tags')
+    def newsfeed_tags(self, request):
+        tags = request.user.subscribed_tags.all()
+        post_tag_map = PostTagMap.objects.filter(tag_id__in=tags.values_list('id'))
+        posts = Post.objects.filter(id__in=post_tag_map.values_list('post_id'))
+        posts = posts.annotate(rating=Count('ratings')).filter(rating__gte=request.user.profile.post_rating)
         serializer = PostFullSerializer(posts, many=True)
         return Response(serializer.data)
 
@@ -88,7 +102,9 @@ def subscription_view(request, pk):
     try:
         relation = UserRelation.objects.get(Q(subscriber=request.user) & Q(subscribed_to=subscribed_to))
         relation.delete()
+        logger.info('user with id: {} unsubscribed from user with id: {}'.format(request.user.id, pk))
         return Response("Unsubscribed from {}.".format(relation.subscribed_to.username))
     except Exception:
-        relation = UserRelation.objects.create(subscriber=request.user,subscribed_to=subscribed_to)
+        relation = UserRelation.objects.create(subscriber=request.user, subscribed_to=subscribed_to)
+        logger.info('user with id: {} subscribed to user with id: {}'.format(request.user.id, pk))
         return Response("You subscribed to {}.".format(relation.subscribed_to.username))

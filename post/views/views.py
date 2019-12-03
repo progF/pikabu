@@ -5,9 +5,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from post.models import Post, Comment
-from post.serializers import PostShortSerializer, PostFullSerializer, CommentSerializer, PostFullSerializer2, \
+from post.serializers import PostShortSerializer, PostFullSerializer, PostFullSerializer2, \
     CommentWithCreatorSerializer
 from utils.permissions import IsOwnerOrReadOnly
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class PostListAPIView(APIView):
@@ -59,6 +62,7 @@ class PostDetailAPIView(APIView):
     def delete(self, request, pk):
         post = self.get_object(pk)
         post.delete()
+        logger.info('post with id: {} deleted.'.format(pk))
         return Response('Post with ID: {} was deleted.'.format(pk), status=status.HTTP_204_NO_CONTENT)
 
 
@@ -102,4 +106,5 @@ class CommentDetailAPIView(APIView):
     def delete(self, request, pk):
         comment = self.get_object(pk)
         comment.delete()
+        logger.info('comment with id: {} deleted'.format(pk))
         return Response('Deleted comment with ID: {}'.format(pk), status=status.HTTP_204_NO_CONTENT)

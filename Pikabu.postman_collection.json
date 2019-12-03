@@ -1,0 +1,1231 @@
+{
+	"info": {
+		"_postman_id": "893f1560-b2d0-4f62-980d-a0e005935ad9",
+		"name": "Pikabu",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"aigerim\",\n\t\"password\":\"aigerimka\",\n\t\"email\": \"aiganym7777@gmail.com\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/register/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "82761767-9894-4c1d-9ba1-e67cea176c3b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"aigerim\",\n\t\"password\":\"aigerimka\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/login/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "JWT {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "background_image",
+									"type": "file",
+									"src": "/home/aiganym/Downloads/kuvshino2.png",
+									"disabled": true
+								},
+								{
+									"key": "about",
+									"value": "very good person",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "profile_image",
+									"type": "file",
+									"src": "/home/aiganym/Downloads/download.jpeg",
+									"disabled": true
+								},
+								{
+									"key": "comment_sorting",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/profile/1/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"profile",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete account",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5LCJ1c2VybmFtZSI6ImZpcmRldXMxIiwiZXhwIjoxNTc1MjgxMzYwLCJlbWFpbCI6IiJ9.0Vg0tr5vzLsrgii7qfRXDsJfkLkmmZbhXLNbbfYqsB8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/delete/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"delete",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(Un)Subscribe To",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/subscribe_to/1/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"subscribe_to",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all profiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/users/profile",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "My Posts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/info/posts",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"info",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "My Comments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/info/comments",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"info",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "My Saved Posts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/info/saved_posts",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"info",
+								"saved_posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewsFeed (Subscriptions)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/info/newsfeed/subscriptions",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"info",
+								"newsfeed",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewsFeed (Communitites)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/info/newsfeed/communities",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"info",
+								"newsfeed",
+								"communities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewsFeed (Tags)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/users/info/newsfeed/tags",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"info",
+								"newsfeed",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "15406446-7141-43b2-9c02-f5ddb6eefd2f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "cf6dc952-8cdf-4e96-b5d8-41df80284bc0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Как приготовить блинчики?",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "Добавьте муку, любовь и кроличьи лапки.",
+									"type": "text"
+								},
+								{
+									"key": "documents_uploaded",
+									"type": "file",
+									"src": "/home/aiganym/Downloads/icon.png"
+								},
+								{
+									"key": "community_id",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "tag_names[0]",
+									"value": "блинчик",
+									"type": "text"
+								},
+								{
+									"key": "tag_names[1]",
+									"value": "еда",
+									"type": "text"
+								},
+								{
+									"key": "tag_names[1]",
+									"value": "лосьон",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Posts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Autho",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Выжить без еды",
+									"type": "text"
+								},
+								{
+									"key": "documents_uploaded",
+									"type": "file",
+									"src": "/home/aiganym/Downloads/icon.png",
+									"disabled": true
+								},
+								{
+									"key": "text",
+									"value": "Было сложно. Пришлось съесть Куата.",
+									"type": "text"
+								},
+								{
+									"key": "community_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "tag_names[0]",
+									"value": "лосьон",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/4",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add/Remove Post Rating ",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/2/rating",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"2",
+								"rating"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Posts By Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/?date=03-12-2019",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								""
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "03-12-2019"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get New Posts (Свежее)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/?sort=created_at",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								""
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "created_at"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Hot Posts (Горячее)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/?sort=rating",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								""
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "rating"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/3/save",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"3",
+								"save"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Community",
+			"item": [
+				{
+					"name": "Create community",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"Django2\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/communities/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"communities",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get communities",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/communities/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"communities",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve one community",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/communities/1/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"communities",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change community fields",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "JWT {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "NAME",
+									"type": "text"
+								},
+								{
+									"key": "about",
+									"value": "ABOUT",
+									"type": "text"
+								},
+								{
+									"key": "community_image",
+									"type": "file",
+									"src": "/home/aiganym/Downloads/kuvshinov1.jpg"
+								},
+								{
+									"key": "background_image",
+									"type": "file",
+									"src": "/home/aiganym/Downloads/icon.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/communities/1/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"communities",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete community",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "JWT {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"NAME\",\n    \"about\": \"ABOUT\",\n    \"community_image\": null,\n    \"background_image\": null\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/communities/2/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"communities",
+								"2",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribe to community",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/subscribe_to/1/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"subscribe_to",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "Add Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "text",
+									"value": "Очень круто",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/3/comments",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"3",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Comment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/comments/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"comments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post Comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/posts/2/comments",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"2",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Comment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "text",
+									"value": "Я передумала наверное",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/comments/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"comments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Tag",
+			"item": [
+				{
+					"name": "Create tag",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"лоьсон\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/tags/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tags",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get tags",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/tags/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tags",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribe to tag",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/tags/4/subscribe",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tags",
+								"4",
+								"subscribe"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ce78028f-9b72-4a5e-a82d-b62e718ecb66",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ae9ad195-8687-4816-bde5-c4da1ed8c1dd",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
