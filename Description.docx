@@ -1,0 +1,22 @@
+Project Description
+
+Pikabu - web site where users can make posts and like / comment posts. Posts / comments / users have ratings.
+
+There 3 types of users :
+Superadmin ,
+moderators(is_staff),
+users. 
+
+*Moderators can block users or delete their comments and posts.
+*Users can like and comment posts.
+ 
+If user will a post, the rating of post and its creator’s rating will be increased. 
+And also if user like a comment, rating of comment and its creator’s rating will be increased.
+
+The main purpose of platform to show posts by different parameters  like most popular posts published today or most popular posts by rating etc.
+
+Also there are communities. People can add post to community, but creator(moderator) of community can delete it. 
+
+Tags are another model in our platform. They are used to get posts close by context and topics.
+
+Users can subscribe to tags, communities, users to always see posts that contains some tags or posts made by specific user.
