@@ -3,18 +3,18 @@
 **The purpose of the project is to give opportunity to  users to order coal to various places in Kazakhstan.**
 
 ## Apps and their functionality:
-1. auth_
+1. ###### auth_
    - Main User models
    - Authentication
-2. moderator
+2. ###### moderator
    - Regions, Cities, Zones, Tupics models
    - Uploading prices for coal and shipping for different cities.
    - Uploading prices for certain month
    - Calculating price of order
-3. order
+3. ###### order
    - Creating order
    - Changing order status in admin panel
-4. push
+4. ###### push
    - Making push notifications
    - History of notifications
 
